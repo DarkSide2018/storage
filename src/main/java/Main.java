@@ -2,6 +2,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import impl.StorageImpl;
 import interfaces.Storage;
 import model.StorNode;
+import org.apache.xmlbeans.XmlOptions;
+import org.apache.xmlbeans.impl.xb.xsdschema.SchemaDocument;
+
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 
 public class Main {
     private static ObjectMapper mapper = new ObjectMapper();
@@ -55,7 +65,28 @@ public class Main {
 
         System.out.println(storage.getByName(name));
 
-        System.out.println(mapper.writeValueAsString(storage.getParent()));
+         Object parent = storage.getParent();
+
+         System.out.println(mapper.writeValueAsString(parent));
+
+         String xmlString = "";
+        JAXBContext context = JAXBContext.newInstance(StorNode.class);
+        Marshaller m = context.createMarshaller();
+         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE); // To format XML
+          StringWriter sw = new StringWriter();
+          m.marshal(parent, sw);
+          xmlString = sw.toString();
+          StringWriter writer = new StringWriter();
+          writer.close();
+          String xmlText = writer.toString();
+          System.out.println(xmlText);
+
+
+         System.out.println(xmlString);
 
     }
+
 }
+
+
+

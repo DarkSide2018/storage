@@ -1,15 +1,19 @@
 package model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-
+@XmlRootElement
 public class StorNode {
     private String name;
     private String jsonPath;
     private String content;
     private Set<StorNode> nextNodes;
+
+    public StorNode() {
+    }
 
     public StorNode(String content) {
        name = UUID.randomUUID().toString().substring(0, 4);
